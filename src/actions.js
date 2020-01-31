@@ -1,23 +1,27 @@
 const util = require('util')
 const exec = util.promisify(require('child_process').exec)
 
-module.exports.listRepos = async () => {
+module.exports.getRepos = async () => {
     const { stdout } = await exec('titan ls')
     const data = stdout.split('\n')
     data.shift()
     data.pop()
 
     return data.map(x => x.split(/[ ]+/)).map(x => {
-        return { name: `${x[1]} (${x[2]})`, value: x[1] }
+        return { name: x[1], status: x[2] }
     })
 }
 
-module.exports.listCommits = async (answers) => {
+module.exports.getCommits = async (answers) => {
     const { stdout } = await exec(`titan log ${answers.repo}`)
     const commits = stdout.split('commit ').map(x => x.split('\n'))
     commits.shift()
 
     return commits.map(x => {
+        const ret = {
+            'hash': x.shift()
+        }
+
         do {
             message = x.pop()
         } while (
@@ -25,9 +29,17 @@ module.exports.listCommits = async (answers) => {
             (message.length === 0 && x.length >= 1)
         )
 
-        if (message.length > 0) {
-            return { name: message, value: x[0] }
+        ret['message'] = message
+
+        for (i = 0; i < x.length; i++) {
+            let item = x[i]
+            if (item.length > 0) {
+                let split = item.split(': ')
+                ret[split[0].toLowerCase()] = split[1]
+            }
         }
+
+        return ret
     })
 }
 

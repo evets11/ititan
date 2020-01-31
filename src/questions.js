@@ -1,4 +1,4 @@
-const { listRepos, listCommits, checkoutCommit, createCommit, deleteCommit } = require('./actions')
+const { getRepos, getCommits, checkoutCommit, createCommit, deleteCommit } = require('./actions')
 
 module.exports.questions = async () => {
     return [
@@ -7,7 +7,12 @@ module.exports.questions = async () => {
             name: 'repo',
             message: 'Choose repository',
             choices: async () => {
-                return await listRepos()
+                return (await getRepos()).map(x => {
+                    return { 
+                        name: `${x.name} ${x.status}`, 
+                        value: x.name 
+                    }
+                })
             }
         },
         {
@@ -15,7 +20,6 @@ module.exports.questions = async () => {
             name: 'action',
             message: 'Choose repository',
             choices: [
-                {name: 'List commits', value: listCommits},
                 {name: 'Checkout commit', value: checkoutCommit},
                 {name: 'Create commit', value: createCommit},
                 {name: 'Delete commit', value: deleteCommit},
@@ -25,8 +29,14 @@ module.exports.questions = async () => {
             type: 'list',
             name: 'commit',
             message: 'Choose commit',
+            pageSize: 20,
             choices: async (answers) => {
-                return await listCommits(answers)
+                return (await getCommits(answers)).map(x => {
+                    return { 
+                        name: `${x.message} \n  ${x.date}\n`, 
+                        value: x.hash 
+                    }
+                })
             },
             when: (answers) => answers.action === checkoutCommit || answers.action === deleteCommit
         },

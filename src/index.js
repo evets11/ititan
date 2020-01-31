@@ -4,9 +4,13 @@ const { prompt } = require('inquirer')
 const { questions } = require('./questions')
 
 async function run() {
-  const answers = await prompt(await questions());
-  const result = await answers.action(answers)
-  console.info(result)
+  try {
+    const answers = await prompt(await questions());
+    const result = await answers.action(answers)
+    console.info(result)
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 run()
