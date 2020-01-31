@@ -1,9 +1,10 @@
+# Interactive Titan Data
+An interactive command line interface for [Titan Data](https://titan-data.io)
+
+# Install
+`npm -g ititan`
+
 # Usage
-Within the directory
-`node src/index.js`
+From the command line run
 
-Outside of the directory
-`node ititan`
-
-# Global Install
-From with the directory run `npm install -g`, this will make the `ititan` command available globally.
+`ititan`

@@ -37,7 +37,7 @@ module.exports.checkoutCommit = async (answers) => {
 }
 
 module.exports.createCommit = async (answers) => {
-    const { stdout } = await exec(`titan commit -m ${answers.commit_message} ${answers.repo}`)
+    const { stdout } = await exec(`titan commit -m "${answers.commit_message}" ${answers.repo}`)
     return stdout
 }
 
