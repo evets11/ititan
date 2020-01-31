@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 
 const { prompt } = require('inquirer')
-const { checkout } = require('./titan')
 const { questions } = require('./questions')
 
 async function run() {
   const answers = await prompt(await questions());
-  const result = await checkout(answers.repo, answers.commit)
+  const result = await answers.action(answers)
   console.info(result)
 }
 

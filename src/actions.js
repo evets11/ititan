@@ -12,8 +12,8 @@ module.exports.listRepos = async () => {
     })
 }
 
-module.exports.listCommits = async (repo) => {
-    const { stdout } = await exec(`titan log ${repo}`)
+module.exports.listCommits = async (answers) => {
+    const { stdout } = await exec(`titan log ${answers.repo}`)
     const commits = stdout.split('commit ').map(x => x.split('\n'))
     commits.shift()
 
@@ -31,7 +31,17 @@ module.exports.listCommits = async (repo) => {
     })
 }
 
-module.exports.checkout = async (repo, commit) => {
-    const { stdout } = await exec(`titan checkout -c ${commit} ${repo}`)
+module.exports.checkoutCommit = async (answers) => {
+    const { stdout } = await exec(`titan checkout -c ${answers.commit} ${answers.repo}`)
+    return stdout
+}
+
+module.exports.createCommit = async (answers) => {
+    const { stdout } = await exec(`titan commit -m ${answers.commit_message} ${answers.repo}`)
+    return stdout
+}
+
+module.exports.deleteCommit = async (answers) => {
+    const { stdout } = await exec(`titan delete -c ${answers.commit} ${answers.repo}`)
     return stdout
 }

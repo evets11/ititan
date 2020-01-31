@@ -1,4 +1,4 @@
-const { listRepos, listCommits } = require('./titan')
+const { listRepos, listCommits, checkoutCommit, createCommit, deleteCommit } = require('./actions')
 
 module.exports.questions = async () => {
     return [
@@ -12,11 +12,29 @@ module.exports.questions = async () => {
         },
         {
             type: 'list',
+            name: 'action',
+            message: 'Choose repository',
+            choices: [
+                {name: 'List commits', value: listCommits},
+                {name: 'Checkout commit', value: checkoutCommit},
+                {name: 'Create commit', value: createCommit},
+                {name: 'Delete commit', value: deleteCommit},
+            ]
+        },
+        {
+            type: 'list',
             name: 'commit',
             message: 'Choose commit',
             choices: async (answers) => {
-                return await listCommits(answers.repo)
-            }
+                return await listCommits(answers)
+            },
+            when: (answers) => answers.action === checkoutCommit || answers.action === deleteCommit
+        },
+        {
+            type: 'input',
+            name: 'commit_message',
+            message: 'Enter commit message',
+            when: (answers) => answers.action === createCommit
         },
     ]
 }
