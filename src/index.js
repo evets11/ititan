@@ -8,8 +8,10 @@ async function run() {
     const answers = await prompt(await questions());
     const result = await answers.action(answers)
     console.info(result)
-  } catch (error) {
-    console.error(error)
+  } catch (e) {
+    e.hasOwnProperty('stdout') ?
+      console.error(e.stdout) :
+      console.error(e)
   }
 }
 

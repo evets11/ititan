@@ -18,7 +18,7 @@ module.exports.questions = async () => {
         {
             type: 'list',
             name: 'action',
-            message: 'Choose repository',
+            message: 'Choose actions',
             choices: [
                 {name: 'Checkout commit', value: checkoutCommit},
                 {name: 'Create commit', value: createCommit},
