@@ -1,13 +1,20 @@
 {
   "name": "ititan",
-  "version": "0.0.4",
-  "description": "Interactive titan-data.io",
-  "main": "run.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "version": "0.0.5",
+  "description": "Interactive titan-data.io command line tool",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/evets11/ititan.git"
   },
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "titan-data"
+  ],
+  "author": "Steve White <stevodevster@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/evets11/ititan/issues"
+  },
+  "homepage": "https://github.com/evets11/ititan",
   "bin": {
     "ititan": "./src/index.js"
   },
