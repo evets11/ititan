@@ -7,12 +7,18 @@ module.exports.questions = async () => {
             name: 'repo',
             message: 'Choose repository',
             choices: async () => {
-                return (await getRepos()).map(x => {
-                    return { 
-                        name: `${x.name} ${x.status}`, 
-                        value: x.name 
+                const repos = (await getRepos()).map(x => {
+                    return {
+                        name: `${x.name} (${x.status})`,
+                        value: x.name
                     }
                 })
+
+                if (repos.length === 0) {
+                    throw new Error('No repositories found')
+                }
+
+                return repos
             }
         },
         {
@@ -31,12 +37,18 @@ module.exports.questions = async () => {
             message: 'Choose commit',
             pageSize: 20,
             choices: async (answers) => {
-                return (await getCommits(answers)).map(x => {
-                    return { 
-                        name: `${x.message} \n  ${x.date}\n`, 
-                        value: x.hash 
+                const commits = (await getCommits(answers)).map(x => {
+                    return {
+                        name: `${x.message} \n  ${x.date}\n`,
+                        value: x.hash
                     }
                 })
+
+                if (commits.length === 0) {
+                    throw new Error('No commits found')
+                }
+
+                return commits
             },
             when: (answers) => answers.action === checkoutCommit || answers.action === deleteCommit
         },

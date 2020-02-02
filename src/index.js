@@ -11,7 +11,8 @@ async function run() {
   } catch (e) {
     e.hasOwnProperty('stdout') ?
       console.error(e.stdout) :
-      console.error(e)
+      console.error(e.message)
+    process.exit(1)
   }
 }
 
