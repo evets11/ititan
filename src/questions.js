@@ -58,5 +58,11 @@ module.exports.questions = async () => {
             message: 'Enter commit message',
             when: (answers) => answers.action === createCommit
         },
+        {
+            type: 'confirm',
+            name: 'confirm',
+            message: 'Are you sure?',
+            when: (answers) => answers.action === deleteCommit
+        },
     ]
 }
